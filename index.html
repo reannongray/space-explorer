@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Explorer | Journey Through Space</title>
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-logo">
+            <i class="fas fa-rocket"></i>
+            <span>Cosmic Explorer</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="#planets"><i class="fas fa-globe"></i> Planets</a>
+            <a href="#missions"><i class="fas fa-satellite"></i> Missions</a>
+            <a href="#gallery"><i class="fas fa-images"></i> Gallery</a>
+            <a href="#tools"><i class="fas fa-tools"></i> Space Tools</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="glow-text">Explore The Universe</h1>
+            <p class="hero-subtitle">Your gateway to cosmic discovery</p>
+            <div class="hero-buttons">
+                <button class="cosmic-btn primary">Start Journey</button>
+                <button class="cosmic-btn secondary">Daily Space Fact</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section id="featured" class="glass-panel">
+        <h2>Today's Space Highlights</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="card-image nasa-apod">
+                    <!-- NASA APOD will load here -->
+                </div>
+                <div class="card-content">
+                    <h3>Astronomy Picture of the Day</h3>
+                    <p class="apod-description"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Solar System -->
+    <section id="planets" class="glass-panel">
+        <h2>Solar System Explorer</h2>
+        <div class="planet-viewer">
+            <!-- Planet cards will appear here automatically -->
+        </div>
+        <div class="planet-info">
+            <h3>Select a planet to learn more</h3>
+        </div>
+    </section>
+    
+
+    <!-- Space Missions Timeline -->
+    <section id="missions" class="glass-panel">
+        <h2>Active Missions</h2>
+        <div class="mission-timeline">
+            <!-- Mission cards will be added here -->
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="glass-panel">
+        <h2>Space Gallery</h2>
+        <div class="gallery-grid">
+            <!-- Gallery items will be added dynamically -->
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="glass-panel">
+        <h2>Space Tools</h2>
+        <div class="tools-grid">
+            <!-- Interactive tools will be added here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-panel">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Cosmic Explorer</h3>
+                <p>Exploring the universe, one discovery at a time.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="src/scripts/app.js"></script>
+</body>
+</html>
