@@ -1,15 +1,29 @@
-class SpaceEvents {
+window.SpaceEvents = class SpaceEvents {
     constructor() {
         this.events = [
             {
-                name: "Perseid Meteor Shower",
-                date: "2024-08-12",
-                description: "One of the best meteor showers of the year"
-            },
-            {
                 name: "Total Solar Eclipse",
                 date: "2024-04-08",
-                description: "Visible across North America"
+                description: "Visible across North America",
+                type: "eclipse"
+            },
+            {
+                name: "Lyrid Meteor Shower",
+                date: "2024-04-22",
+                description: "Peak viewing period with up to 20 meteors per hour",
+                type: "meteor"
+            },
+            {
+                name: "Perseid Meteor Shower",
+                date: "2024-08-12",
+                description: "One of the best meteor showers of the year",
+                type: "meteor"
+            },
+            {
+                name: "Jupiter Opposition",
+                date: "2024-12-07",
+                description: "Best time to view Jupiter",
+                type: "planet"
             }
         ];
     }
@@ -17,6 +31,15 @@ class SpaceEvents {
     getNextEvent() {
         const now = new Date();
         return this.events.find(event => new Date(event.date) > now) || this.events[0];
+    }
+
+    getAllUpcomingEvents() {
+        const now = new Date();
+        return this.events.filter(event => new Date(event.date) > now);
+    }
+
+    getEventsByType(type) {
+        return this.events.filter(event => event.type === type);
     }
 
     calculateCountdown(eventDate) {
@@ -31,6 +54,4 @@ class SpaceEvents {
             seconds: Math.floor((distance % (1000 * 60)) / 1000)
         };
     }
-}
-
-export default SpaceEvents;
+};

@@ -1,14 +1,9 @@
-// Core imports
-import ParticleSystem from './components/ParticleSystem.js';
-import SpaceEvents from './components/SpaceEvents.js';
-import PlanetViewer from './components/PlanetViewer.js';
-import NasaService from './services/NasaService.js';
-
-class SpaceExplorer {
+window.SpaceExplorer = class SpaceExplorer {
     constructor() {
         this.particleSystem = null;
         this.spaceEvents = null;
-        this.planetViewer = null;
+        this.planetComparison = null;
+        this.eventDisplay = null;
     }
 
     static async create() {
@@ -18,18 +13,34 @@ class SpaceExplorer {
     }
 
     async init() {
-        // Initialize core systems
-        this.particleSystem = new ParticleSystem();
-        this.spaceEvents = new SpaceEvents();
-        
-        // Initialize all features
-        await this.initializeAPOD();
-        this.initializeCountdown();
-        this.initializePlanetViewer();
-        this.initializeNavigation();
-        this.initializeScrollEffects();
-        this.initializeEventListeners();
-        this.animateHeroSection();
+        try {
+            // Initialize core systems
+            this.particleSystem = new ParticleSystem();
+            this.spaceEvents = new SpaceEvents();
+            
+            // Initialize Planet Comparison
+            const planetContainer = document.querySelector('#planets');
+            if (planetContainer) {
+                this.planetComparison = new PlanetComparison('planets');
+            }
+            
+            // Initialize Event Display
+            const eventContainer = document.querySelector('#space-events-container');
+            if (eventContainer) {
+                this.eventDisplay = new EventDisplay('space-events-container');
+            }
+
+            // Initialize all other features
+            await this.initializeAPOD();
+            this.initializeCountdown();
+            this.initializeNavigation();
+            this.initializeScrollEffects();
+            this.initializeEventListeners();
+            this.animateHeroSection();
+
+        } catch (error) {
+            console.error('Error during initialization:', error);
+        }
     }
 
     async initializeAPOD() {
@@ -37,6 +48,11 @@ class SpaceExplorer {
             const apodData = await NasaService.getAPOD();
             const apodContainer = document.querySelector('.nasa-apod');
             const apodDescription = document.querySelector('.apod-description');
+
+            if (!apodContainer || !apodDescription) {
+                console.warn('APOD containers not found');
+                return;
+            }
 
             if (apodData.media_type === 'image') {
                 apodContainer.style.backgroundImage = `url(${apodData.url})`;
@@ -47,38 +63,30 @@ class SpaceExplorer {
         } catch (error) {
             console.error('Error loading APOD:', error);
             const apodContainer = document.querySelector('.nasa-apod');
-            apodContainer.innerHTML = '<p>Loading space imagery...</p>';
+            if (apodContainer) {
+                apodContainer.innerHTML = '<p>Loading space imagery...</p>';
+            }
         }
     }
 
     initializeCountdown() {
         const nextEvent = this.spaceEvents.getNextEvent();
         const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (!heroSubtitle || !nextEvent) return;
         
         const updateCountdown = () => {
             const countdown = this.spaceEvents.calculateCountdown(nextEvent.date);
-            heroSubtitle.innerHTML = 
-                `Next Space Event: ${nextEvent.name} in
-                ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`;
+            heroSubtitle.innerHTML = `Next Space Event: ${nextEvent.name} in ${countdown.days}d ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`;
         };
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
     }
 
-    initializePlanetViewer() {
-        const planetContainer = document.querySelector('.planet-viewer');
-        if (planetContainer) {
-            console.log('Planet container found');
-            this.planetViewer = new PlanetViewer(planetContainer);
-        } else {
-            console.log('Planet container not found');
-        }
-    }
-    
-
     initializeNavigation() {
         const nav = document.querySelector('.glass-nav');
+        if (!nav) return;
+
         let lastScroll = window.scrollY;
 
         window.addEventListener('scroll', () => {
@@ -86,13 +94,14 @@ class SpaceExplorer {
             nav.style.transform = `translateX(-50%) translateY(${currentScroll < lastScroll ? '0' : '-100%'})`;
             nav.style.transition = 'transform 0.3s ease-in-out';
             lastScroll = currentScroll;
-
             this.updateNavigationHighlight();
         });
     }
 
     initializeScrollEffects() {
         const sections = document.querySelectorAll('section');
+        if (!sections.length) return;
+
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px'
@@ -140,6 +149,8 @@ class SpaceExplorer {
 
     animateHeroSection() {
         const heroContent = document.querySelector('.hero-content');
+        if (!heroContent) return;
+
         heroContent.style.opacity = '0';
         heroContent.style.transform = 'translateY(20px)';
 
@@ -184,9 +195,14 @@ class SpaceExplorer {
             ripples[0].remove();
         }
     }
-}
+};
 
+// Initialize application
 document.addEventListener('DOMContentLoaded', async () => {
-    const app = await SpaceExplorer.create();
-    window.spaceExplorer = app;
+    try {
+        const app = await SpaceExplorer.create();
+        window.spaceExplorer = app;
+    } catch (error) {
+        console.error('Failed to initialize SpaceExplorer:', error);
+    }
 });
